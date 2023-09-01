@@ -1,0 +1,8 @@
+*.o
+*.slc
+*.log
+jed
+xjed
+chkslang
+rgrep
+

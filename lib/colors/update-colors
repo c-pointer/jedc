@@ -1,0 +1,149 @@
+#!/usr/bin/env jed-script
+
+private variable Like_Color_Map = Assoc_Type[];
+private define set_like_color (obj, likeobj)
+{
+   Like_Color_Map[obj] = likeobj;
+}
+private define get_like_color (obj)
+{
+   if (assoc_key_exists (Like_Color_Map, obj))
+     return Like_Color_Map[obj];
+   return NULL;
+}
+
+set_like_color ("linenum", "status");
+set_like_color ("cursor", "region");
+set_like_color ("cursorovr", "cursor");
+set_like_color ("tab", "comment");
+set_like_color ("trailing_whitespace", "comment");
+set_like_color ("bold", "keyword");
+set_like_color ("underline", "keyword1");
+set_like_color ("italic", "keyword2");
+set_like_color ("url", "string");
+set_like_color ("html", "keyword");
+
+private define build_color_list ()
+{
+   variable color_list = Assoc_Type[Int_Type];
+
+   () = read_file ("../../src/colors.c");
+
+   ifnot (fsearch ("%%% COLOR-TABLE-START %%%"))
+     error ("Unable to find color table tag");
+   push_mark ();
+   ifnot (fsearch ("%%% COLOR-TABLE-STOP %%%"))
+     error ("Unable to find color table tag");
+   narrow ();
+
+   bob ();
+
+   variable i = 0;
+   while (re_fsearch ("^[ \t]+{\"\\([^\"]+\\)\""))
+     {
+	variable color = regexp_nth_match (1);
+	color_list[color] = i; i++;
+	eol ();
+     }
+
+   delbuf (whatbuf ());
+   (color_list, i) = (assoc_get_keys (color_list), assoc_get_values(color_list));
+   i = array_sort (i);
+   return color_list[i];
+}
+
+private define find_set_color_line (color)
+{
+   bob ();
+   return re_fsearch ("^[ \t]*set_color[ \t]*(\"" + color + "\"");
+}
+
+private define get_fgbg_for_color (obj, fgp, bgp)
+{
+   variable like_obj;
+
+   push_spot ();
+   EXIT_BLOCK
+     {
+	pop_spot ();
+     }
+
+   forever
+     {
+	obj = get_like_color (obj);
+	if (obj != NULL)
+	  {
+	     ifnot (find_set_color_line (obj))
+	       continue;
+	  }
+	else ifnot (find_set_color_line ("normal"))
+	  return -1;
+
+	() = ffind (",");
+	go_right(1);
+	push_mark ();
+	() = ffind (",");
+	@fgp = strtrim (bufsubstr());
+	go_right (1);
+	push_mark ();
+	() = ffind (")");
+	@bgp = strtrim (bufsubstr());
+	return 0;
+     }
+}
+
+
+private define process_file (file, color_list)
+{
+   () = read_file (file);
+   variable modified = 0;
+   trim_buffer ();
+
+   variable tagline = "%% The following have been automatically generated:\n";
+   bob ();
+   if (bol_fsearch (tagline))
+     {
+	go_down (1);
+	push_mark ();
+	eob ();
+	del_region ();
+	modified = 1;
+     }
+
+   foreach (color_list)
+     {
+	variable color = ();
+	ifnot (find_set_color_line (color))
+	  {
+	     eob ();
+	     if (modified == 0)
+	       {
+		  modified = 1;
+		  vinsert ("\n%s\n", tagline);
+	       }
+
+	     variable fg = "$1", bg = "$2";
+	     if (-1 == get_fgbg_for_color (color, &fg, &bg))
+	       insert ("%%>");
+	     vinsert ("set_color(\"%s\", %s, %s);\n", color, fg, bg);
+	  }
+     }
+
+   if (buffer_modified ())
+     save_buffer ();
+   delbuf (whatbuf ());
+
+   return modified;
+}
+
+define jedscript_main ()
+{
+   variable color_list = build_color_list ();
+
+   foreach (__argv[[1:]])
+     {
+	variable file = ();
+	if (process_file (file, color_list))
+	  () = fprintf (stdout, "%s\n", file);
+     }
+}

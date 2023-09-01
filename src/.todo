@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<todo version="0.1.20">
+    <note priority="medium" time="1577729725" done="1663622591">
+        history on search, translate and command-line
+    </note>
+    <note priority="medium" time="1577729764" done="1661490809">
+        screen region update
+    </note>
+    <note priority="medium" time="1577729780" done="1661490815">
+        line-selection in C
+    </note>
+    <note priority="medium" time="1577729795" done="1661490842">
+        file-completion with popup_menu
+    </note>
+    <note priority="medium" time="1577729873" done="1663622611">
+        move parts of scripts into cbrief.c
+    </note>
+    <note priority="medium" time="1578366811" done="1661490788">
+        add keys to popup with callback
+    </note>
+    <note priority="medium" time="1577729942" done="1666406071">
+        fix copy/paste in X (now it is using xclip)
+    </note>
+    <note priority="medium" time="1661490868">
+        screen region update
+    </note>
+</todo>

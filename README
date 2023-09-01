@@ -1,0 +1,23 @@
+README file for JED.
+
+For installation instructions on
+
+      Unix:
+        read INSTALL.unx
+
+      VMS:
+        read INSTALL.vms
+
+      Windows:
+        read INSTALL.pc
+
+Then, read INSTALL for more installation tips.  For changes and new
+features, read changes.txt.
+
+Addition information about JED is available from
+<https://www.jedsoft.org/jed/> The documentation for the slang library
+and interpreter is available from <https://www.jedsoft.org/slang/>.
+
+A mailing list is also available. See
+<https://www.jedsoft.org/jed/mailinglists.html> for more information
+about it.
