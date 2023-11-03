@@ -2,7 +2,7 @@
 
 # C compiler and C flags
 CC = gcc
-CFLAGS = -g -O   
+CFLAGS = -g -O   -I/usr/include/freetype2 -I/usr/include/libpng16 
 LDFLAGS =  -Wl,-export-dynamic
 
 #---------------------------------------------------------------------------
@@ -19,7 +19,7 @@ JED_ROOT = /usr/jed# <--- make sure # is at end of file!!
 BIN_DIR = ${exec_prefix}/bin
 MAN_DIR = ${datarootdir}/man/man1
 INFO_DIR = ${datarootdir}/info
-INSTALL		= /usr/bin/ginstall -c
+INSTALL		= /usr/bin/install -c
 INSTALL_DATA	= ${INSTALL} -m 644
 MKINSDIR = ../autoconf/mkinsdir.sh
 JED_LIB_FILES = ../lib/*.sl ../lib/*.dat ../lib/*.hlp ../lib/jed.rc
@@ -61,7 +61,7 @@ MOUSE_OBJ_FILE =
 
 # 2. XFree86 XRENDERFONT (Anti-aliased font) support for XJED
 #XRENDERFONTLIBS = -lXft -lXrender -lfreetype -lXext
-XRENDERFONTLIBS = 
+XRENDERFONTLIBS = -lXft -lfontconfig
 
 #---------------------------------------------------------------------------
 # S-Lang library location
@@ -82,7 +82,7 @@ TERMCAP_LIB =
 XLIBDIR = 
 
 # X Include directory
-XINCLUDE = 
+XINCLUDE =  -I/usr/include/freetype2 -I/usr/include/libpng16
 
 # Extra libraries needed by X and Network support on some systems
 X_XTRA_LIBS = 
@@ -142,9 +142,9 @@ XJED_LIBS = $(XLIB) $(XRENDERFONTLIBS)
 
 GTKJED_OFILES = vterm.o gtkmenu.o gtkwin.o gtkterm.o
 GTKJED_OBJS = $(OBJDIR)/vterm.o $(OBJDIR)/gtkmenu.o $(OBJDIR)/gtkwin.o $(OBJDIR)/gtkterm.o
-GTKJED_LIBS =  $(XRENDERFONTLIBS)
-GTKJED_CFLAGS = 
-BUILD_GTKJED = no
+GTKJED_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -lpangocairo-1.0 -latk-1.0 -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lharfbuzz -lfontconfig -lfreetype $(XRENDERFONTLIBS)
+GTKJED_CFLAGS = -pthread -I/usr/include/gtk-2.0 -I/usr/lib64/gtk-2.0/include -I/usr/include/pango-1.0 -I/usr/include/atk-1.0 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/fribidi -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng16
+BUILD_GTKJED = yes
 
 UPDATE_VERSION_SCRIPT = $(HOME)/bin/update_changes_version
 

@@ -100,7 +100,7 @@
 
 #define SIZEOF_SHORT 2
 #define SIZEOF_INT 4
-#define SIZEOF_LONG 4
+#define SIZEOF_LONG 8
 #define SIZEOF_FLOAT 4
 #define SIZEOF_DOUBLE 8
 #define SIZEOF_LONG_LONG 8
@@ -108,12 +108,12 @@
 #define HAVE_LONG_LONG 1
 
 /* The following set defines may be necessary to activate long file support */
-#define _FILE_OFFSET_BITS 64
+/* #undef _FILE_OFFSET_BITS */
 /* #undef _LARGE_FILES */
 /* #undef _LARGEFILE_SOURCE */
 
 /* For antialiased fonts, set this to 1 */
-/* #undef XJED_HAS_XRENDERFONT */
+#define XJED_HAS_XRENDERFONT 1
 
 /* Undefine this to disable floating point support. */
 #define FLOAT_TYPE
