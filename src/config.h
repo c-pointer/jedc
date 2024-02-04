@@ -113,7 +113,7 @@
 /* #undef _LARGEFILE_SOURCE */
 
 /* For antialiased fonts, set this to 1 */
-#define XJED_HAS_XRENDERFONT 1
+/* #undef XJED_HAS_XRENDERFONT */
 
 /* Undefine this to disable floating point support. */
 #define FLOAT_TYPE

@@ -2,7 +2,7 @@
 
 # C compiler and C flags
 CC = gcc
-CFLAGS = -g -O   -I/usr/include/freetype2 -I/usr/include/libpng16 
+CFLAGS = -g -O2   
 LDFLAGS =  -Wl,-export-dynamic
 
 #---------------------------------------------------------------------------
@@ -10,16 +10,16 @@ LDFLAGS =  -Wl,-export-dynamic
 # $JED_ROOT.  /usr/local/jed is a good choice.  For a private installation,
 # use, e.g., $(HOME)/src/jed
 #---------------------------------------------------------------------------
-prefix = /usr
+prefix = /data/data/com.termux/files/usr
 exec_prefix = ${prefix}
 datarootdir = ${prefix}/share
 #JED_ROOT = $(HOME)/src/jed# <--- make sure # is at end of file!!
 #JED_ROOT = $(prefix)/jed# <--- make sure # is at end of file!!
-JED_ROOT = /usr/jed# <--- make sure # is at end of file!!
+JED_ROOT = /data/data/com.termux/files/usr/jed# <--- make sure # is at end of file!!
 BIN_DIR = ${exec_prefix}/bin
 MAN_DIR = ${datarootdir}/man/man1
 INFO_DIR = ${datarootdir}/info
-INSTALL		= /usr/bin/install -c
+INSTALL		= /data/data/com.termux/files/usr/bin/install -c
 INSTALL_DATA	= ${INSTALL} -m 644
 MKINSDIR = ../autoconf/mkinsdir.sh
 JED_LIB_FILES = ../lib/*.sl ../lib/*.dat ../lib/*.hlp ../lib/jed.rc
@@ -45,10 +45,10 @@ DEST_JED_ROOT = $(DESTDIR)$(JED_ROOT)
 # Location of jed source code 
 #---------------------------------------------------------------------------
 # Location of jed source code (absolute path)
-SRCDIR = /lanfs/src/jedc/src
+SRCDIR = /data/data/com.termux/files/home/src/jedc/src
 
 # Location of compiled object code (absolute path)
-OBJDIR = /lanfs/src/jedc/src/$(ARCH)objs
+OBJDIR = /data/data/com.termux/files/home/src/jedc/src/$(ARCH)objs
 
 #---------------------------------------------------------------------------
 # Special features (See also features.h)
@@ -61,28 +61,28 @@ MOUSE_OBJ_FILE =
 
 # 2. XFree86 XRENDERFONT (Anti-aliased font) support for XJED
 #XRENDERFONTLIBS = -lXft -lXrender -lfreetype -lXext
-XRENDERFONTLIBS = -lXft -lfontconfig
+XRENDERFONTLIBS = 
 
 #---------------------------------------------------------------------------
 # S-Lang library location
 #---------------------------------------------------------------------------
 # -L + Location of libslang.a 
-SLANG_LIB = 
-RPATH	  = 
+SLANG_LIB = -L/data/data/com.termux/files/usr/lib
+RPATH	  = -Wl,-R/data/data/com.termux/files/usr/lib
 # -I + Location of slang.h
-SLANG_INC = 
+SLANG_INC = -I/data/data/com.termux/files/usr/include
 
 #---------------------------------------------------------------------------
 # X and Miscellaneous libraries
 #---------------------------------------------------------------------------
 # Some systems need -ltermcap (NeXT)
-TERMCAP_LIB = 
+TERMCAP_LIB = -ltermcap
 
 # X library location
 XLIBDIR = 
 
 # X Include directory
-XINCLUDE =  -I/usr/include/freetype2 -I/usr/include/libpng16
+XINCLUDE = 
 
 # Extra libraries needed by X and Network support on some systems
 X_XTRA_LIBS = 
@@ -142,9 +142,9 @@ XJED_LIBS = $(XLIB) $(XRENDERFONTLIBS)
 
 GTKJED_OFILES = vterm.o gtkmenu.o gtkwin.o gtkterm.o
 GTKJED_OBJS = $(OBJDIR)/vterm.o $(OBJDIR)/gtkmenu.o $(OBJDIR)/gtkwin.o $(OBJDIR)/gtkterm.o
-GTKJED_LIBS = -lgtk-x11-2.0 -lgdk-x11-2.0 -lpangocairo-1.0 -latk-1.0 -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lpangoft2-1.0 -lpango-1.0 -lgobject-2.0 -lglib-2.0 -lharfbuzz -lfontconfig -lfreetype $(XRENDERFONTLIBS)
-GTKJED_CFLAGS = -pthread -I/usr/include/gtk-2.0 -I/usr/lib64/gtk-2.0/include -I/usr/include/pango-1.0 -I/usr/include/atk-1.0 -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/pango-1.0 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/fribidi -I/usr/include/cairo -I/usr/include/pixman-1 -I/usr/include/harfbuzz -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/freetype2 -I/usr/include/libpng16
-BUILD_GTKJED = yes
+GTKJED_LIBS =  $(XRENDERFONTLIBS)
+GTKJED_CFLAGS = 
+BUILD_GTKJED = no
 
 UPDATE_VERSION_SCRIPT = $(HOME)/bin/update_changes_version
 

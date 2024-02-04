@@ -26,7 +26,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#if !defined(__INT_IS_REGSIZE__)
+#if !defined(__INT_IS_REGSIZE__) && !defined(__INT_IS_WORD__)
 #define __INT_IS_REGSIZE__
 typedef unsigned int uint_t __attribute__ ((__mode__ (__word__)));
 typedef signed   int int_t  __attribute__ ((__mode__ (__word__)));

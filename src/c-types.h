@@ -26,6 +26,10 @@
 extern "C" {
 #endif
 
+#if !defined(LINE_MAX)
+	#define LINE_MAX	4096
+#endif
+
 #define INT32_TYPE	INT_TYPE
 #define UINT32_TYPE	UINT_TYPE
 #define INT64_TYPE	LONG_TYPE
@@ -51,7 +55,7 @@ extern "C" {
 /* int == word, real = word, big real = double word */
 #if defined(_LP64) || defined(_LLP64)
 	typedef intptr_t		int_t;
-	typedef uintptr_t		uint_t;
+//	typedef uintptr_t		uint_t;
 	typedef double			real_t;
 	typedef long double		bigr_t;
 
@@ -65,7 +69,7 @@ extern "C" {
 		#define __WORDSIZE64	1
 	#endif
 	typedef int			int_t;
-	typedef unsigned	uint_t;
+//	typedef unsigned	uint_t;
 	typedef double		real_t;	/* 32/64 x86 */
 	typedef long double	bigr_t;	/* 32/64 x86 */
 
